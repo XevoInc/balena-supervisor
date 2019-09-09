@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        state update: set cancelDelay to true rather than calling the
+        nonexistent fn
+      hash: 661d6bd0ddec18ac55030177ca62d89a9b0da8b0
+      body: ''
+      footer:
+        Closes: '#1080'
+        closes: '#1080'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 10.3.4
+  date: 2019-09-09T19:14:08.024Z
+- commits:
     - subject: 'entry.sh: conform to shellcheck syntax'
       hash: cda39ab9e16cb6e3d0979b1727792bd7e55917ec
       body: ''
