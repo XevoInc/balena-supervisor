@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        targetState update: set cancelDelay to reject (rather than calling the
+        nonexistent function)
+      hash: b93b14a66131fc893dc751cb692d29b1429f0a7a
+      body: ''
+      footer:
+        Closes: '#1080'
+        closes: '#1080'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 10.3.4
+  date: 2019-09-09T18:48:54.460Z
+- commits:
     - subject: 'entry.sh: conform to shellcheck syntax'
       hash: cda39ab9e16cb6e3d0979b1727792bd7e55917ec
       body: ''
