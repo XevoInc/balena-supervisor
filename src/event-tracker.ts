@@ -2,8 +2,7 @@ import * as Bluebird from 'bluebird';
 import mask = require('json-mask');
 import * as _ from 'lodash';
 import * as memoizee from 'memoizee';
-
-import Mixpanel = require('mixpanel');
+import * as mixpanel from 'mixpanel';
 
 import { ConfigType } from './config';
 import log from './lib/supervisor-console';
@@ -35,7 +34,7 @@ const mixpanelMask = [
 
 export class EventTracker {
 	private defaultProperties: EventTrackProperties | null;
-	private client: any;
+	private client: mixpanel.Mixpanel | null;
 
 	public constructor() {
 		this.client = null;
@@ -57,7 +56,7 @@ export class EventTracker {
 			if (unmanaged || mixpanelHost == null) {
 				return;
 			}
-			this.client = Mixpanel.init(mixpanelToken, {
+			this.client = mixpanel.init(mixpanelToken as string, {
 				host: mixpanelHost.host,
 				path: mixpanelHost.path,
 			});
@@ -94,7 +93,20 @@ export class EventTracker {
 			// Call this function at maximum once every minute
 			return _.throttle(
 				properties => {
-					this.client.track(event, properties);
+					if (this.client != null) {
+						if (!properties.uuid) {
+							// In some weird cases we see events that seem to be submitted by the supervisor
+							// but not containing any default properties.
+							// This code is supposed to clarify if it actually happens because of the supervisor.
+							const availableData = _.merge({}, this.defaultProperties, {
+								details: 'uuid is missing on event properties',
+							});
+							this.client.track(`Problematic ${event}`, availableData);
+							return;
+						}
+
+						this.client.track(event, properties);
+					}
 				},
 				eventDebounceTime,
 				{ leading: true },
